@@ -3,7 +3,7 @@ from typing import Dict, Any, Optional
 
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime
 from sqlalchemy.orm import sessionmaker, declarative_base
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import json
 
 Base = declarative_base()
@@ -21,8 +21,8 @@ class AgentStateDB(Base):
 
 class AgentMemory(BaseModel):
     last_thought: Optional[str] = None
-    conversation_history: list[str] = []
-    internal_data: Dict[str, Any] = {}
+    conversation_history: list[str] = Field(default_factory=list)
+    internal_data: Dict[str, Any] = Field(default_factory=dict)
     run_count: int = 0
 
 class AgentPersistenceManager:
